@@ -390,16 +390,16 @@ display:
             field_identifier: ''
           exposed: false
       arguments:
-        tid:
-          id: tid
+        vid:
+          id: vid
           table: taxonomy_term_field_data
-          field: tid
+          field: vid
           relationship: none
           group_type: group
           admin_label: ''
           entity_type: taxonomy_term
-          entity_field: tid
-          plugin_id: taxonomy
+          entity_field: vid
+          plugin_id: vocabulary_vid
           default_action: default
           exception:
             value: all
@@ -470,8 +470,8 @@ display:
         - url.query_args
         - user.permissions
       tags: {  }
-  rest_export_1:
-    id: rest_export_1
+  categories:
+    id: categories
     display_title: 'Term list by vocabulary'
     display_plugin: rest_export
     position: 1

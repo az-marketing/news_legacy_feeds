@@ -131,31 +131,57 @@ class NewsDeprecatedDataFieldRow extends DataFieldRow {
    * @return array
    *   The node data.
    */
-  protected function getNodeData($story) {
-    $image_id = $story->get('field_az_media_thumbnail_image')[0]->target_id;
-    $imgData = $this->getImageData($image_id, $story);
-    $output = [
-      'uuid' => $story->uuid(),
-      'title' => $story->label(),
+protected function getNodeData($story) {
+  $image_id = $story->get('field_az_media_thumbnail_image')[0]->target_id;
+  $imgData = $this->getImageData($image_id, $story);
+  $output = [
+    'uuid' => $story->uuid(),
+    'title' => $story->label(),
+  ];
+
+  if (!($imgData instanceof AZNewsDataEmpty)) {
+    $output['img-fid'] = $imgData['fid'];
+    $output['img-large'] = [
+      'src' => $imgData['original'],
+      'alt' => $imgData['alt'],
     ];
-
-    if (!($imgData instanceof AZNewsDataEmpty)) {
-      $output['img-fid'] = $imgData['fid'];
-      $output['img-large'] = [
-        'src' => $imgData['original'],
-        'alt' => $imgData['alt'],
-      ];
-      $output['img-thumb'] = [
-        'src' => $imgData['thumbnail'],
-        'alt' => $imgData['alt'],
-      ];
-    }
-
-    $output['summary-med'] = $this->token->replace($story->body->value, ['node' => $story]);
-    $output['url-canonical'] = $story->toUrl()->toString();
-
-    return $output;
+    $output['img-thumb'] = [
+      'src' => $imgData['thumbnail'],
+      'alt' => $imgData['alt'],
+    ];
   }
+
+  $output['url-canonical'] = $story->toUrl()->toString();
+  $output['date-of-publication'] = $this->formatDateOfPublication($story->get('field_az_published')[0]->value);
+
+  // Convert terms to a comma-separated string
+  $terms = $story->get('field_az_news_tags')->referencedEntities();
+  $output['terms'] = $this->getTermsAsString($terms);
+
+  $output['summary-med'] = $story->get('field_az_summary')[0]->value ?? "\n";
+  $output['byline'] = $story->get('field_az_byline')[0]->value ?? "\n";
+  // Adding byline-affiliation as it's required in your desired output
+  $output['byline-affiliation'] = $story->get('field_az_byline')[0]->value ?? "\n";
+  $output['body'] = $story->get('field_az_body')->value ?? "\n";
+
+  return $output;
+}
+
+protected function formatDateOfPublication($dateString) {
+  // Assuming your desired date format is somewhat specific,
+  // you might need a custom formatting approach
+  $date = new \DateTime($dateString);
+  // Adjust the format as per your requirements
+  return $date->format('l midnight');
+}
+protected function getTermsAsString($terms) {
+  $termNames = [];
+  foreach ($terms as $term) {
+    $termNames[] = $term->getName();
+  }
+  return implode(', ', $termNames);
+}
+
 
   protected function getImageData($value, $entity) {
 
