@@ -392,7 +392,7 @@ display:
           plugin_id: taxonomy_index_tid
           operator: or
           value:
-            - 90
+            - 274
           group: 1
           exposed: false
           expose:
