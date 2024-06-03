@@ -382,10 +382,10 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        tid:
-          id: tid
-          table: taxonomy_index
-          field: tid
+        field_custom_news_article_type_target_id:
+          id: field_custom_news_article_type_target_id
+          table: node__field_custom_news_article_type
+          field: field_custom_news_article_type_target_id
           relationship: none
           group_type: group
           admin_label: ''
