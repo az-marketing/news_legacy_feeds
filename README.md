@@ -35,7 +35,7 @@ Categories
 
 To test, have the site import from itself.
 
-**Note:** This module includes configuration files in the /config/dependencies/ folder. These files are intended to be automatically installed into your local site when running lando build && lando install. However, the configuration in the /config/dependencies/ folder should not be installed on the news.arizona.edu site, as it already exists in the site's database.
+**Note:** This module includes configuration files in the `/config/dependencies/` folder. These files are intended to be automatically installed into your local site when running lando build && lando install. However, the configuration in the `/config/dependencies/` folder should not be installed on the news.arizona.edu site, as it already exists in the site's database.
 
 
 ```
